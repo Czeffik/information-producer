@@ -9,9 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DomainConfiguration {
     @Bean
-    InformationService informationService(
-        InformationReceiver informationReceiver
-    ) {
+    InformationService informationService(InformationReceiver informationReceiver) {
         return InformationServiceFactory.create(informationReceiver);
     }
 }

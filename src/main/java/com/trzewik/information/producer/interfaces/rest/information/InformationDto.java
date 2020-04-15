@@ -1,14 +1,17 @@
-package com.trzewik.information.producer.interfaces.rest;
+package com.trzewik.information.producer.interfaces.rest.information;
 
 import com.trzewik.information.producer.domain.information.Information;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class InformationDto {
+public class InformationDto implements Serializable {
     private final String id;
     private final String description;
     private final String message;

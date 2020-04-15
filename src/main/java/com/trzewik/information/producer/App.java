@@ -5,18 +5,20 @@ import com.trzewik.information.producer.infrastructure.InfrastructureConfigurati
 import com.trzewik.information.producer.interfaces.InterfacesConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration;
+import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 @Import(
     {
         DomainConfiguration.class,
         InfrastructureConfiguration.class,
-        InterfacesConfiguration.class
+        InterfacesConfiguration.class,
+        ConfigurationPropertiesAutoConfiguration.class,
+        PropertyPlaceholderAutoConfiguration.class
     }
 )
 @SpringBootConfiguration
-@EnableAutoConfiguration
 public class App {
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);

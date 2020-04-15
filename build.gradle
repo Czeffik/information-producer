@@ -8,6 +8,7 @@ buildscript {
         lombokVersion = '1.18.12'
         springBootVersion = '2.2.6.RELEASE'
         jacksonDatabindVersion = '2.10.3'
+        swaggerVersion = '2.9.2'
 
         repositories(repos)
     }
@@ -32,6 +33,9 @@ repositories(repos)
 
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+
+    compile "io.springfox:springfox-swagger2:${swaggerVersion}"
+    compile "io.springfox:springfox-swagger-ui:${swaggerVersion}"
 
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonDatabindVersion}"
