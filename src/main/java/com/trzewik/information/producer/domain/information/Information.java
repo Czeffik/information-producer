@@ -23,11 +23,11 @@ public class Information {
     @NonNull
     private final List<Car> cars;
 
-    Information(InformationService.InformationForm form) {
+    Information(@NonNull InformationService.InformationForm form) {
         this(UUID.randomUUID().toString(), form);
     }
 
-    Information(String id, InformationService.InformationForm form) {
+    Information(@NonNull String id, @NonNull InformationService.InformationForm form) {
         this(
             id,
             form.getDescription(),
@@ -37,7 +37,7 @@ public class Information {
         );
     }
 
-    Information(Information information, InformationService.InformationForm form) {
+    Information(@NonNull Information information, @NonNull InformationService.InformationForm form) {
         this(
             information.id,
             form.getDescription() == null ? information.description : form.getDescription(),

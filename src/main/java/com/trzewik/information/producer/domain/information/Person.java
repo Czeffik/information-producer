@@ -17,7 +17,7 @@ public class Person {
     @NonNull
     private final String lastName;
 
-    Person(InformationService.PersonForm form) {
+    Person(@NonNull InformationService.PersonForm form) {
         this(
             UUID.randomUUID().toString(),
             form.getName(),
@@ -25,7 +25,7 @@ public class Person {
         );
     }
 
-    Person(Person person, InformationService.PersonForm form) {
+    Person(@NonNull Person person, @NonNull InformationService.PersonForm form) {
         this(
             person.id,
             form.getName() == null ? person.name : form.getName(),

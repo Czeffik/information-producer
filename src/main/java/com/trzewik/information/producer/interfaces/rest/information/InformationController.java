@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,7 +52,7 @@ public class InformationController {
     @PostMapping(value = "/information", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public InformationDto createInformation(
-        @ApiParam(required = true, value = "Information object") @NonNull @RequestBody InformationService.InformationForm form
+        @ApiParam(required = true, value = "Information object") @RequestBody InformationService.InformationForm form
     ) {
         log.info("Create information request with body: [{}]", form);
         return InformationDto.from(informationService.create(form));
@@ -70,7 +69,7 @@ public class InformationController {
     @ResponseStatus(HttpStatus.OK)
     public InformationDto updateInformation(
         @ApiParam(required = true, value = "Id of information to replace") @PathVariable(value = "id") String id,
-        @ApiParam(required = true, value = "Information object") @NonNull @RequestBody InformationService.InformationForm form
+        @ApiParam(required = true, value = "Information object") @RequestBody InformationService.InformationForm form
     ) throws InformationRepository.NotFoundException {
         log.info("Replace information request with id: [{}] and body: [{}]", id, form);
         return InformationDto.from(informationService.replace(id, form));
@@ -87,7 +86,7 @@ public class InformationController {
     @ResponseStatus(HttpStatus.OK)
     public InformationDto patchInformation(
         @ApiParam(required = true, value = "Id of information to update") @PathVariable(value = "id") String id,
-        @ApiParam(required = true, value = "Information object") @NonNull @RequestBody InformationService.InformationForm form
+        @ApiParam(required = true, value = "Information object") @RequestBody InformationService.InformationForm form
     ) throws InformationRepository.NotFoundException {
         log.info("Update information request with id: [{}] and body: [{}]", id, form);
         return InformationDto.from(informationService.update(id, form));

@@ -19,7 +19,7 @@ public class Car {
     @NonNull
     private final String color;
 
-    Car(InformationService.CarForm form) {
+    Car(@NonNull InformationService.CarForm form) {
         this(
             UUID.randomUUID().toString(),
             form.getBrand(),
@@ -28,7 +28,7 @@ public class Car {
         );
     }
 
-    Car(Car car, InformationService.CarForm form) {
+    Car(@NonNull Car car, @NonNull InformationService.CarForm form) {
         this(
             car.id,
             car.brand,
