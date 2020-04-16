@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.UUID;
 
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Car {
     @NonNull
     private final String id;

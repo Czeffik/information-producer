@@ -73,7 +73,7 @@ public class InformationController {
         @ApiParam(required = true, value = "Information object") @NonNull @RequestBody InformationService.InformationForm form
     ) throws InformationRepository.NotFoundException {
         log.info("Replace information request with id: [{}] and body: [{}]", id, form);
-        return InformationDto.from(informationService.update(id, form));
+        return InformationDto.from(informationService.replace(id, form));
     }
 
     @ApiOperation(value = "Update information", httpMethod = "PATCH")
@@ -90,7 +90,7 @@ public class InformationController {
         @ApiParam(required = true, value = "Information object") @NonNull @RequestBody InformationService.InformationForm form
     ) throws InformationRepository.NotFoundException {
         log.info("Update information request with id: [{}] and body: [{}]", id, form);
-        return InformationDto.from(informationService.replace(id, form));
+        return InformationDto.from(informationService.update(id, form));
     }
 
     @ApiOperation(value = "Delete information", httpMethod = "DELETE")

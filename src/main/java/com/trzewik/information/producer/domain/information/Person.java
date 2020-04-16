@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.UUID;
 
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Person {
     @NonNull
     private final String id;
