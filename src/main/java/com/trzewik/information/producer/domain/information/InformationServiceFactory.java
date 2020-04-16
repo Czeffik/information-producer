@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 public class InformationServiceFactory {
 
     public static InformationService create(
-        InformationReceiver informationReceiver
+        InformationRepository informationRepository
     ) {
-        return new InformationServiceImpl(informationReceiver);
+        return new InformationServiceImpl(informationRepository);
     }
 }
