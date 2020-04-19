@@ -5,7 +5,7 @@ class InformationRepositoryMock implements InformationRepository, InformationCre
 
     @Override
     synchronized void save(Information information) {
-        repository.put(information.id, createInformation(new InformationCreator(information.id, information)))
+        repository.put(information.id, createInformation(new InformationCreator(information)))
     }
 
     @Override
@@ -15,7 +15,7 @@ class InformationRepositoryMock implements InformationRepository, InformationCre
 
     @Override
     synchronized void update(Information information) {
-        repository.put(information.id, createInformation(new InformationCreator(information.id, information)))
+        repository.put(information.id, createInformation(new InformationCreator(information)))
     }
 
     @Override

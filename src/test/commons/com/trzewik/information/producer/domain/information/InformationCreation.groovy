@@ -22,12 +22,12 @@ trait InformationCreation implements CarCreation, PersonCreation {
 
         InformationCreator() {}
 
-        InformationCreator(String id, Information information) {
-            this.id = id
+        InformationCreator(Information information) {
+            this.id = information.id
             this.description = information.description
             this.message = information.message
-            this.personCreator = new PersonCreator(information.person.id, information.person)
-            this.carCreators = information.cars.collect { new CarCreator(it.id, it) }
+            this.personCreator = new PersonCreator(information.person)
+            this.carCreators = information.cars.collect { new CarCreator(it) }
         }
 
         InformationCreator(InformationService.InformationForm informationForm) {

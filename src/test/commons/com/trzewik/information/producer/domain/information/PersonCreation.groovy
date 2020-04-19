@@ -17,8 +17,8 @@ trait PersonCreation {
 
         PersonCreator() {}
 
-        PersonCreator(String id, Person person) {
-            this.id = id
+        PersonCreator(Person person) {
+            this.id = person.id
             this.name = person.name
             this.lastName = person.lastName
         }

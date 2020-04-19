@@ -23,8 +23,8 @@ trait CarCreation {
 
         CarCreator() {}
 
-        CarCreator(String id, Car car) {
-            this.id = id
+        CarCreator(Car car) {
+            this.id = car.id
             this.brand = car.brand
             this.model = car.model
             this.color = car.color
