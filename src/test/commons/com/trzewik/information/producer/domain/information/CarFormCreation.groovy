@@ -10,12 +10,8 @@ trait CarFormCreation {
         )
     }
 
-    List<InformationService.CarForm> createCarForms(int amountOfCars = 3) {
-        def cars = []
-        amountOfCars.times {
-            cars << createCarForm()
-        }
-        return cars
+    List<InformationService.CarForm> createCarForms(List<CarFormCreator> carFormCreators) {
+        return carFormCreators.collect {createCarForm(it)}
     }
 
     static class CarFormCreator {

@@ -1,9 +1,6 @@
 package com.trzewik.information.producer.domain.information;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,6 +8,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode
 public class Information {
     @NonNull
     private final String id;

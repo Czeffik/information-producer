@@ -1,14 +1,12 @@
 package com.trzewik.information.producer.domain.information;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode
 public class Car {
     @NonNull
     private final String id;

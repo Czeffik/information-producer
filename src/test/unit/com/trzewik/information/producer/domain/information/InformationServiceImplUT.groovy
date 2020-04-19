@@ -3,7 +3,7 @@ package com.trzewik.information.producer.domain.information
 import spock.lang.Specification
 import spock.lang.Subject
 
-class InformationServiceImplUT extends Specification implements InformationFormCreation {
+class InformationServiceImplUT extends Specification implements InformationFormCreation, InformationCreation {
     InformationRepository informationRepository = new InformationRepositoryMock()
 
     @Subject
@@ -12,7 +12,7 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should get information from repository'() {
         given:
-        def information = new Information(createFormInformation())
+        def information = createInformation()
 
         and:
         informationRepository.save(information)
@@ -22,12 +22,11 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
         then:
         foundInformation == information
-        foundInformation.description == information.description
     }
 
     def 'should throw exception when information is not found in repository'() {
         given:
-        def information = new Information(createFormInformation())
+        def information = createInformation()
 
         and:
         informationRepository.save(information)
@@ -75,7 +74,7 @@ class InformationServiceImplUT extends Specification implements InformationFormC
         def informationForm = createFormInformation()
 
         and:
-        def information = new Information(informationForm)
+        def information = createInformation(new InformationCreator(informationForm))
 
         and:
         informationRepository.save(information)
@@ -111,7 +110,7 @@ class InformationServiceImplUT extends Specification implements InformationFormC
         def informationForm = createFormInformation()
 
         and:
-        def information = new Information(informationForm)
+        def information = createInformation(new InformationCreator(informationForm))
 
         and:
         informationRepository.save(information)
@@ -135,7 +134,7 @@ class InformationServiceImplUT extends Specification implements InformationFormC
         def informationForm = createFormInformation()
 
         and:
-        def information = new Information(informationForm)
+        def information = createInformation(new InformationCreator(informationForm))
 
         and:
         informationRepository.save(information)
@@ -171,7 +170,7 @@ class InformationServiceImplUT extends Specification implements InformationFormC
         def informationForm = createFormInformation()
 
         and:
-        def information = new Information(informationForm)
+        def information = createInformation(new InformationCreator(informationForm))
 
         and:
         informationRepository.save(information)
@@ -192,7 +191,7 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should delete existing information from repository'() {
         given:
-        def information = new Information(createFormInformation())
+        def information = createInformation()
 
         and:
         informationRepository.save(information)
@@ -209,7 +208,7 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should throw exception when information for delete is not found in repository'() {
         given:
-        def information = new Information(createFormInformation())
+        def information = createInformation()
 
         and:
         informationRepository.save(information)
