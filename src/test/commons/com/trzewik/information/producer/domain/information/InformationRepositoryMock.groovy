@@ -11,7 +11,7 @@ class InformationRepositoryMock implements InformationRepository, InformationFor
     @Override
     synchronized Optional<Information> find(String id) {
         Information information = repository.get(id)
-        return Optional.ofNullable(information == null ? null : information)
+        return Optional.ofNullable(information)
     }
 
     @Override
