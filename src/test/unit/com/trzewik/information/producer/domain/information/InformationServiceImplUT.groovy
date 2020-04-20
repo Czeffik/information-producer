@@ -44,14 +44,14 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should create new information with given information form and save in repository'() {
         given:
-        def informationForm = createInformationForm()
+        def informationFormCreator = new InformationFormCreator()
 
         when:
-        def information = informationService.create(informationForm)
+        def information = informationService.create(createInformationForm(informationFormCreator))
 
         then:
-        verifyIfInformationHaveSameValues(information, informationForm)
-        information.cars.size() == informationForm.cars.size()
+        verifyIfInformationHaveSameValues(information, informationFormCreator)
+        information.cars.size() == informationFormCreator.carFormCreators.size()
 
         and:
         informationRepository.repository.size() == 1
@@ -69,15 +69,14 @@ class InformationServiceImplUT extends Specification implements InformationFormC
         informationRepository.save(information)
 
         and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
-            description: 'New description'
-        ))
+        def newInformationFormCreator = new InformationFormCreator(description: 'New description')
+        def newInformationForm = createInformationForm(newInformationFormCreator)
 
         when:
         def updatedInformation = informationService.update(information.id, newInformationForm)
 
         then:
-        verifyIfInformationHaveSameValues(updatedInformation, newInformationForm)
+        verifyIfInformationHaveSameValues(updatedInformation, newInformationFormCreator)
         updatedInformation.cars.size() == newInformationForm.cars.size()
 
         and:
@@ -86,40 +85,61 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should update existing information and save in repository with new data or old if field is null'() {
         given:
-        def informationForm = createInformationForm()
+        def informationFormCreator = new InformationFormCreator()
+        def informationForm = createInformationForm(informationFormCreator)
 
         and:
         def information = createInformation(new InformationCreator(informationForm))
 
         and:
-        def oldInformationDescription = informationForm.description
-        def oldInformationPerson = informationForm.person
-
-        and:
         informationRepository.save(information)
 
         and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def newInformationFormCreator = new InformationFormCreator(
             description: null,
             message: 'New message',
             personFormCreator: new PersonFormCreator(name: null, lastName: null),
-            carFormCreators: [new CarFormCreator(brand: "New brand", model: 'New model')]
-        ))
+            carFormCreators: [new CarFormCreator(brand: "New brand", model: 'New model'), new CarFormCreator()]
+        )
+        def newInformationForm = createInformationForm(newInformationFormCreator)
 
         when:
         def updatedInformation = informationService.update(information.id, newInformationForm)
 
         then:
-        with(updatedInformation) {
-            description != newInformationForm.description
-            description == oldInformationDescription
-            message == newInformationForm.message
-            message != information.message
-            verifyIfPersonHaveSameValues(person, oldInformationPerson)
-            verifyListOfCarsIfHaveSameValues(cars, newInformationForm.cars)
-            cars.size() != information.cars.size()
-            cars.size() == newInformationForm.cars.size()
-        }
+        verifyIfInformationHaveSameValues(updatedInformation, new InformationFormCreator(
+            description: informationFormCreator.description,
+            message: newInformationForm.message,
+            personFormCreator: informationFormCreator.personFormCreator,
+            carFormCreators: newInformationFormCreator.carFormCreators
+        ))
+        updatedInformation.cars.size() == newInformationForm.cars.size()
+
+        and:
+        informationRepository.repository.size() == 1
+    }
+
+    def 'should not update existing information with new data if all fields are null'() {
+        given:
+        def informationFormCreator = new InformationFormCreator()
+        def informationForm = createInformationForm(informationFormCreator)
+
+        and:
+        def information = createInformation(new InformationCreator(informationForm))
+
+        and:
+        informationRepository.save(information)
+
+        and:
+        def newInformationForm = createInformationFormWithNullValues()
+
+        when:
+        def updatedInformation = informationService.update(information.id, newInformationForm)
+
+        then:
+        verifyIfInformationHaveSameValues(updatedInformation, informationFormCreator)
+        updatedInformation.cars.size() == informationForm.cars.size()
+
         and:
         informationRepository.repository.size() == 1
     }
@@ -161,15 +181,16 @@ class InformationServiceImplUT extends Specification implements InformationFormC
         informationRepository.save(information)
 
         and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def newInformationFormCreator = new InformationFormCreator(
             description: 'New description'
-        ))
+        )
+        def newInformationForm = createInformationForm(newInformationFormCreator)
 
         when:
         def updatedInformation = informationService.replace(information.id, newInformationForm)
 
         then:
-        verifyIfInformationHaveSameValues(updatedInformation, newInformationForm)
+        verifyIfInformationHaveSameValues(updatedInformation, newInformationFormCreator)
         updatedInformation.cars.size() == newInformationForm.cars.size()
 
         and:

@@ -17,7 +17,6 @@ trait CarCreation {
         return carCreators.collect { createCar(it) }
     }
 
-    @EqualsAndHashCode(excludes = "id")
     static class CarCreator {
         String id = 'Test-car-id'
         String brand = 'Test brand'

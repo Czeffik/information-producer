@@ -11,6 +11,15 @@ trait InformationFormCreation implements CarFormCreation, PersonFormCreation {
         )
     }
 
+    InformationService.InformationForm createInformationFormWithNullValues() {
+        return new InformationService.InformationForm(
+            description: null,
+            message: null,
+            person: null,
+            cars: null
+        )
+    }
+
     static class InformationFormCreator {
 
         String description = 'Test description'
