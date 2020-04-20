@@ -2,7 +2,7 @@ package com.trzewik.information.producer.domain.information
 
 trait InformationFormCreation implements CarFormCreation, PersonFormCreation {
 
-    InformationService.InformationForm createFormInformation(InformationFormCreator creator = new InformationFormCreator()) {
+    InformationService.InformationForm createInformationForm(InformationFormCreator creator = new InformationFormCreator()) {
         return new InformationService.InformationForm(
             description: creator.description,
             message: creator.message,
