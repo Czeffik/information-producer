@@ -9,6 +9,7 @@ buildscript {
         springBootVersion = '2.2.6.RELEASE'
         jacksonDatabindVersion = '2.10.3'
         swaggerVersion = '2.9.2'
+        pitestVersion = '1.4.8'
 
         repositories(repos)
     }
@@ -20,6 +21,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'org.springframework.boot' version "$springBootVersion"
+    id 'info.solidsoft.pitest' version "$pitestVersion"
 }
 
 apply from: 'gradle/test.gradle'
@@ -55,4 +57,11 @@ bootJar {
 
 bootRun {
     main = 'com.trzewik.information.producer.App'
+}
+
+pitest {
+    useClasspathFile = true
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+    timestampedReports = false
 }
