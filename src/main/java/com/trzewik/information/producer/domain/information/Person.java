@@ -26,12 +26,4 @@ public class Person {
             form.getLastName()
         );
     }
-
-    Person(@NonNull Person person, @NonNull InformationService.PersonForm form) {
-        this(
-            person.id,
-            form.getName() == null ? person.name : form.getName(),
-            form.getLastName() == null ? person.lastName : form.getLastName()
-        );
-    }
 }

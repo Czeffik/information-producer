@@ -13,7 +13,7 @@ trait CarFormCreation {
     }
 
     List<InformationService.CarForm> createCarForms(List<CarFormCreator> carFormCreators) {
-        return carFormCreators.collect {createCarForm(it)}
+        return carFormCreators.collect { createCarForm(it) }
     }
 
     @EqualsAndHashCode
@@ -22,7 +22,7 @@ trait CarFormCreation {
         String model = 'Test model'
         String color = 'Test color'
 
-        CarFormCreator(){}
+        CarFormCreator() {}
 
         CarFormCreator(Car car) {
             this.brand = car.brand

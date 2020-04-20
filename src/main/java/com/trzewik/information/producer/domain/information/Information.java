@@ -44,14 +44,8 @@ public class Information {
             information.id,
             form.getDescription() == null ? information.description : form.getDescription(),
             form.getMessage() == null ? information.message : form.getMessage(),
-            form.getPerson() == null ? information.person : new Person(information.person, form.getPerson()),
-            form.getCars() == null ? information.cars : form.getCars().stream()
-                .map(carForm -> information.cars.stream()
-                    .filter(car -> car.isEqual(carForm))
-                    .findFirst()
-                    .map(car -> new Car(car, carForm))
-                    .orElseGet(() -> new Car(carForm)))
-                .collect(Collectors.toList())
+            form.getPerson() == null ? information.person : new Person(form.getPerson()),
+            form.getCars() == null ? information.cars : form.getCars().stream().map(Car::new).collect(Collectors.toList())
         );
     }
 }

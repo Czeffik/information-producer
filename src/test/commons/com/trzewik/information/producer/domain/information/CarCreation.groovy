@@ -1,7 +1,5 @@
 package com.trzewik.information.producer.domain.information
 
-import groovy.transform.EqualsAndHashCode
-
 trait CarCreation {
 
     Car createCar(CarCreator creator = new CarCreator()) {

@@ -29,17 +29,4 @@ public class Car {
             form.getColor()
         );
     }
-
-    Car(@NonNull Car car, @NonNull InformationService.CarForm form) {
-        this(
-            car.id,
-            car.brand,
-            car.model,
-            form.getColor() == null ? car.color : form.getColor()
-        );
-    }
-
-    boolean isEqual(InformationService.CarForm form) {
-        return this.brand.equals(form.getBrand()) && this.model.equals(form.getModel());
-    }
 }
