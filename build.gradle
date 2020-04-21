@@ -9,7 +9,7 @@ buildscript {
         springBootVersion = '2.2.6.RELEASE'
         jacksonDatabindVersion = '2.10.3'
         swaggerVersion = '2.9.2'
-        pitestVersion = '1.4.8'
+        pitestVersion = '1.4.6'
 
         repositories(repos)
     }
@@ -61,7 +61,7 @@ bootRun {
 
 pitest {
     useClasspathFile = true
-    threads = 4
+    threads = 2
     outputFormats = ['XML', 'HTML']
     timestampedReports = false
 }

@@ -15,8 +15,8 @@ trait CarFormCreation {
     }
 
     static class CarFormCreator {
-        String brand = 'Test brand'
-        String model = 'Test model'
-        String color = 'Test color'
+        String brand = 'Test form brand'
+        String model = 'Test form model'
+        String color = 'Test form color'
     }
 }

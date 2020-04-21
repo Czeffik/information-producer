@@ -11,7 +11,8 @@ trait InformationVerifier implements InformationCreation {
     }
 
     boolean verifyPerson(Person person, InformationService.PersonForm personForm) {
-        assert person.name == personForm.name && person.lastName == person.lastName
+        assert person.name == personForm.name
+        assert person.lastName == person.lastName
         return true
     }
 

@@ -13,8 +13,8 @@ trait InformationFormCreation implements CarFormCreation, PersonFormCreation {
 
     static class InformationFormCreator {
 
-        String description = 'Test description'
-        String message = 'Test message'
+        String description = 'Test form description'
+        String message = 'Test form message'
         PersonFormCreator personCreator = new PersonFormCreator()
         List<CarFormCreator> carCreators = [new CarFormCreator(), new CarFormCreator()]
     }

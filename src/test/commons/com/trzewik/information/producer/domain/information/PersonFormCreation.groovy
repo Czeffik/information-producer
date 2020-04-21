@@ -10,7 +10,7 @@ trait PersonFormCreation {
     }
 
     static class PersonFormCreator {
-        String name = 'Test name'
-        String lastName = 'Test last name'
+        String name = 'Test form name'
+        String lastName = 'Test form last name'
     }
 }
