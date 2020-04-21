@@ -2,23 +2,22 @@ package com.trzewik.information.producer.domain.information
 
 trait InformationVerifier {
 
-    boolean verifyIfInformationHaveSameValues(Information information, InformationFormCreation.InformationFormCreator informationFormCreator) {
-        return information.description == informationFormCreator.description &&
-            information.message == informationFormCreator.message &&
-            verifyIfPersonHaveSameValues(information.person, informationFormCreator.personFormCreator) &&
-            verifyListOfCarsIfHaveSameValues(information.cars, informationFormCreator.carFormCreators)
+    boolean verifyInformation(Information information, InformationService.InformationForm informationForm) {
+        assert information.description == informationForm.description
+        assert information.message == informationForm.message
+        assert verifyPerson(information.person, informationForm.person)
+        assert verifyCars(information.cars, informationForm.cars)
+        return true
     }
 
-    boolean verifyIfPersonHaveSameValues(Person person, PersonFormCreation.PersonFormCreator personForm) {
-        return person.name == personForm.name && person.lastName == person.lastName
+    boolean verifyPerson(Person person, InformationService.PersonForm personForm) {
+        assert person.name == personForm.name && person.lastName == person.lastName
+        return true
     }
 
-    boolean verifyListOfCarsIfHaveSameValues(List<Car> cars, List<CarFormCreation.CarFormCreator> carForms) {
-        return changeCarIntoCarCreators(cars) == carForms
-    }
-
-    List<CarFormCreation.CarFormCreator> changeCarIntoCarCreators(List<Car> cars) {
-        return cars.collect { car -> new CarFormCreation.CarFormCreator(car) }
+    boolean verifyCars(List<Car> cars, List<InformationService.CarForm> carForms) {
+        assert cars.collect { car -> new CarFormCreation.CarFormCreator(car) } == carForms.collect { carForm -> new CarFormCreation.CarFormCreator(carForm) }
+        return true
     }
 
 }
