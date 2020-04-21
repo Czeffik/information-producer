@@ -6,17 +6,8 @@ trait InformationFormCreation implements CarFormCreation, PersonFormCreation {
         return new InformationService.InformationForm(
             description: creator.description,
             message: creator.message,
-            person: createPersonForm(creator.personFormCreator),
-            cars: createCarForms(creator.carFormCreators)
-        )
-    }
-
-    InformationService.InformationForm createInformationFormWithNullValues() {
-        return new InformationService.InformationForm(
-            description: null,
-            message: null,
-            person: null,
-            cars: null
+            person: createPersonForm(creator.personCreator),
+            cars: createCarForms(creator.carCreators)
         )
     }
 
@@ -24,7 +15,7 @@ trait InformationFormCreation implements CarFormCreation, PersonFormCreation {
 
         String description = 'Test description'
         String message = 'Test message'
-        PersonFormCreator personFormCreator = new PersonFormCreator()
-        List<CarFormCreator> carFormCreators = [new CarFormCreator(), new CarFormCreator()]
+        PersonFormCreator personCreator = new PersonFormCreator()
+        List<CarFormCreator> carCreators = [new CarFormCreator(), new CarFormCreator()]
     }
 }

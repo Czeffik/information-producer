@@ -5,7 +5,7 @@ import groovy.transform.EqualsAndHashCode
 trait CarFormCreation {
 
     InformationService.CarForm createCarForm(CarFormCreator creator = new CarFormCreator()) {
-        return new InformationService.CarForm(
+        return creator == null ? null : new InformationService.CarForm(
             brand: creator.brand,
             model: creator.model,
             color: creator.color
@@ -13,7 +13,7 @@ trait CarFormCreation {
     }
 
     List<InformationService.CarForm> createCarForms(List<CarFormCreator> carFormCreators) {
-        return carFormCreators.collect { createCarForm(it) }
+        return carFormCreators == null ? null : carFormCreators.collect { createCarForm(it) }
     }
 
     @EqualsAndHashCode
@@ -25,6 +25,12 @@ trait CarFormCreation {
         CarFormCreator() {}
 
         CarFormCreator(Car car) {
+            this.brand = car.brand
+            this.model = car.model
+            this.color = car.color
+        }
+
+        CarFormCreator(InformationService.CarForm car) {
             this.brand = car.brand
             this.model = car.model
             this.color = car.color
