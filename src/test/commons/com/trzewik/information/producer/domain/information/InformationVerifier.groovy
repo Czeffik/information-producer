@@ -1,6 +1,6 @@
 package com.trzewik.information.producer.domain.information
 
-trait InformationVerifier {
+trait InformationVerifier implements InformationCreation {
 
     boolean verifyInformation(Information information, InformationService.InformationForm informationForm) {
         assert information.description == informationForm.description
@@ -16,8 +16,14 @@ trait InformationVerifier {
     }
 
     boolean verifyCars(List<Car> cars, List<InformationService.CarForm> carForms) {
-        assert cars.collect { car -> new CarFormCreation.CarFormCreator(car) } == carForms.collect { carForm -> new CarFormCreation.CarFormCreator(carForm) }
+        assert cars.size() == carForms.size()
+        assert cars == translateCarFormsInCars(cars, carForms)
         return true
+    }
+
+    List<Car> translateCarFormsInCars(List<Car> cars, List<InformationService.CarForm> carForms) {
+        int index = 0
+        return carForms.collect { carForm -> createCar(new CarCreator(cars.get(index++), carForm)) }
     }
 
 }

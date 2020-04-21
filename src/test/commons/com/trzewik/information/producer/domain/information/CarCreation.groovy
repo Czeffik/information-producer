@@ -36,5 +36,12 @@ trait CarCreation {
             this.model = carForm.model
             this.color = carForm.color
         }
+
+        CarCreator(Car car, InformationService.CarForm carForm) {
+            this.id = car.id
+            this.brand = carForm.brand
+            this.model = carForm.model
+            this.color = carForm.color
+        }
     }
 }

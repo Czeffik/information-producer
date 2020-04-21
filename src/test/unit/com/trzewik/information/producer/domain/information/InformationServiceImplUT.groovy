@@ -3,7 +3,7 @@ package com.trzewik.information.producer.domain.information
 import spock.lang.Specification
 import spock.lang.Subject
 
-class InformationServiceImplUT extends Specification implements InformationFormCreation, InformationCreation, InformationVerifier {
+class InformationServiceImplUT extends Specification implements InformationFormCreation, InformationVerifier {
     InformationRepository informationRepository = new InformationRepositoryMock()
 
     @Subject
@@ -51,7 +51,6 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
         then:
         verifyInformation(information, informationForm)
-        information.cars.size() == informationForm.cars.size()
 
         and:
         informationRepository.repository.size() == 1
@@ -85,7 +84,6 @@ class InformationServiceImplUT extends Specification implements InformationFormC
         then:
         verifyInformation(updatedInformation, newInformationForm)
         verifyInformation(informationFromRepo, newInformationForm)
-        updatedInformation.cars.size() == newInformationForm.cars.size()
 
         and:
         informationRepository.repository.size() == 1
@@ -109,7 +107,6 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
         then:
         verifyInformation(updatedInformation, newInformationForm)
-        updatedInformation.cars.size() == newInformationForm.cars.size()
 
         and:
         informationRepository.repository.size() == 1
@@ -133,7 +130,6 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
         then:
         verifyInformation(updatedInformation, newInformationForm)
-        updatedInformation.cars.size() == newInformationForm.cars.size()
 
         and:
         informationRepository.repository.size() == 1
@@ -158,7 +154,6 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
         then:
         verifyInformation(updatedInformation, newInformationForm)
-        updatedInformation.cars.size() == newInformationForm.cars.size()
 
         and:
         informationRepository.repository.size() == 1
@@ -183,7 +178,6 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
         then:
         verifyInformation(updatedInformation, newInformationForm)
-        updatedInformation.cars.size() == newInformationForm.cars.size()
 
         and:
         informationRepository.repository.size() == 1
@@ -217,7 +211,6 @@ class InformationServiceImplUT extends Specification implements InformationFormC
             person: informationForm.person,
             cars: newInformationForm.cars
         ))
-        updatedInformation.cars.size() == newInformationForm.cars.size()
 
         and:
         informationRepository.repository.size() == 1
@@ -246,7 +239,6 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
         then:
         verifyInformation(updatedInformation, informationForm)
-        updatedInformation.cars.size() == informationForm.cars.size()
 
         and:
         informationRepository.repository.size() == 1
@@ -417,7 +409,6 @@ class InformationServiceImplUT extends Specification implements InformationFormC
         then:
         verifyInformation(replacedInformation, newInformationForm)
         verifyInformation(informationFromRepo, newInformationForm)
-        replacedInformation.cars.size() == newInformationForm.cars.size()
 
         and:
         informationRepository.repository.size() == 1
