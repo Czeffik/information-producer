@@ -30,15 +30,8 @@ trait CarCreation {
             this.color = car.color
         }
 
-        CarCreator(InformationService.CarForm carForm) {
-            this.id = UUID.randomUUID().toString()
-            this.brand = carForm.brand
-            this.model = carForm.model
-            this.color = carForm.color
-        }
-
-        CarCreator(Car car, InformationService.CarForm carForm) {
-            this.id = car.id
+        CarCreator(String id = UUID.randomUUID().toString(), InformationService.CarForm carForm) {
+            this.id = id
             this.brand = carForm.brand
             this.model = carForm.model
             this.color = carForm.color

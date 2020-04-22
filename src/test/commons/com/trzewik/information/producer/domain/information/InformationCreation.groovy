@@ -30,8 +30,8 @@ trait InformationCreation implements CarCreation, PersonCreation {
             this.carCreators = information.cars.collect { new CarCreator(it) }
         }
 
-        InformationCreator(InformationService.InformationForm informationForm) {
-            this.id = UUID.randomUUID().toString()
+        InformationCreator(String id = UUID.randomUUID().toString(), InformationService.InformationForm informationForm) {
+            this.id = id
             this.description = informationForm.description
             this.message = informationForm.message
             this.personCreator = new PersonCreator(informationForm.person)

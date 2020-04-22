@@ -9,14 +9,14 @@ class InformationServiceImplUT extends Specification implements InformationFormC
     @Subject
     InformationService informationService = InformationServiceFactory.create(informationRepository)
 
+    Information information;
+
+    def setup() {
+        information = createInformation()
+        informationRepository.save(information)
+    }
 
     def 'should get information from repository'() {
-        given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
         when:
         def foundInformation = informationService.get(information.id)
 
@@ -26,12 +26,6 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should throw exception when information is not found in repository'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
         def notExistingId = information.id + '1'
 
         when:
@@ -42,30 +36,24 @@ class InformationServiceImplUT extends Specification implements InformationFormC
         exception.message == "Can not find information with id: [${notExistingId}] in repository."
     }
 
-    def 'should create new information with given information form and save in repository'() {
+    def 'should create new information from given information form and save in repository'() {
         given:
         def informationForm = createInformationForm()
 
         when:
-        def information = informationService.create(informationForm)
+        def newInformation = informationService.create(informationForm)
 
         then:
-        verifyInformation(information, informationForm)
+        verifyInformation(newInformation, informationForm)
 
         and:
-        informationRepository.repository.size() == 1
+        informationRepository.repository.size() == 2
     }
 
 
     def 'should update all fields in existing information and save in repository with new data'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def informationForm = createInformationForm(new InformationFormCreator(
             description: 'New description',
             message: 'New message',
             personCreator: new PersonFormCreator(name: "New name", lastName: "New last name"),
@@ -73,14 +61,14 @@ class InformationServiceImplUT extends Specification implements InformationFormC
         ))
 
         when:
-        def updatedInformation = informationService.update(information.id, newInformationForm)
+        def updatedInformation = informationService.update(information.id, informationForm)
 
         and:
         def informationFromRepo = informationRepository.get(information.id)
 
         then:
-        verifyInformation(updatedInformation, newInformationForm)
-        verifyInformation(informationFromRepo, newInformationForm)
+        verifyInformation(updatedInformation, informationForm)
+        verifyInformation(informationFromRepo, informationForm)
 
         and:
         informationRepository.repository.size() == 1
@@ -88,19 +76,13 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should update description field in existing information and save in repository with new data'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(description: 'New description'))
+        def informationForm = createInformationForm(new InformationFormCreator(description: 'New description'))
 
         when:
-        def updatedInformation = informationService.update(information.id, newInformationForm)
+        def updatedInformation = informationService.update(information.id, informationForm)
 
         then:
-        verifyInformation(updatedInformation, newInformationForm)
+        verifyInformation(updatedInformation, informationForm)
 
         and:
         informationRepository.repository.size() == 1
@@ -108,19 +90,13 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should update message field in existing information and save in repository with new data'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(message: 'New message'))
+        def informationForm = createInformationForm(new InformationFormCreator(message: 'New message'))
 
         when:
-        def updatedInformation = informationService.update(information.id, newInformationForm)
+        def updatedInformation = informationService.update(information.id, informationForm)
 
         then:
-        verifyInformation(updatedInformation, newInformationForm)
+        verifyInformation(updatedInformation, informationForm)
 
         and:
         informationRepository.repository.size() == 1
@@ -128,20 +104,14 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should update person field in existing information and save in repository with new data'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def informationForm = createInformationForm(new InformationFormCreator(
             personCreator: new PersonFormCreator(name: "New name", lastName: "New last name")))
 
         when:
-        def updatedInformation = informationService.update(information.id, newInformationForm)
+        def updatedInformation = informationService.update(information.id, informationForm)
 
         then:
-        verifyInformation(updatedInformation, newInformationForm)
+        verifyInformation(updatedInformation, informationForm)
 
         and:
         informationRepository.repository.size() == 1
@@ -149,20 +119,14 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should update cars list field in existing information and save in repository with new data'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def informationForm = createInformationForm(new InformationFormCreator(
             carCreators: [new CarFormCreator(brand: "New brand", model: 'New model', color: 'New color')]))
 
         when:
-        def updatedInformation = informationService.update(information.id, newInformationForm)
+        def updatedInformation = informationService.update(information.id, informationForm)
 
         then:
-        verifyInformation(updatedInformation, newInformationForm)
+        verifyInformation(updatedInformation, informationForm)
 
         and:
         informationRepository.repository.size() == 1
@@ -198,7 +162,7 @@ class InformationServiceImplUT extends Specification implements InformationFormC
         ))
 
         and:
-        informationRepository.repository.size() == 1
+        informationRepository.repository.size() == 2
     }
 
     def 'should not update existing information with new data if all fields are null'() {
@@ -226,23 +190,17 @@ class InformationServiceImplUT extends Specification implements InformationFormC
         verifyInformation(updatedInformation, informationForm)
 
         and:
-        informationRepository.repository.size() == 1
+        informationRepository.repository.size() == 2
     }
 
     def 'should throw exception when person name is null when trying update'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def informationForm = createInformationForm(new InformationFormCreator(
             personCreator: new PersonFormCreator(name: null)
         ))
 
         when:
-        informationService.update(information.id, newInformationForm)
+        informationService.update(information.id, informationForm)
 
         then:
         def exception = thrown(NullPointerException)
@@ -251,18 +209,12 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should throw exception when person last name is null when trying update'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def informationForm = createInformationForm(new InformationFormCreator(
             personCreator: new PersonFormCreator(lastName: null)
         ))
 
         when:
-        informationService.update(information.id, newInformationForm)
+        informationService.update(information.id, informationForm)
 
         then:
         def exception = thrown(NullPointerException)
@@ -271,18 +223,12 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should throw exception when one of cars brand is null when trying update'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def informationForm = createInformationForm(new InformationFormCreator(
             carCreators: [new CarFormCreator(brand: null)]
         ))
 
         when:
-        informationService.update(information.id, newInformationForm)
+        informationService.update(information.id, informationForm)
 
         then:
         def exception = thrown(NullPointerException)
@@ -291,18 +237,12 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should throw exception when one of cars model is null when trying update'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def informationForm = createInformationForm(new InformationFormCreator(
             carCreators: [new CarFormCreator(model: null)]
         ))
 
         when:
-        informationService.update(information.id, newInformationForm)
+        informationService.update(information.id, informationForm)
 
         then:
         def exception = thrown(NullPointerException)
@@ -311,18 +251,12 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should throw exception when one of cars color is null when trying update'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def informationForm = createInformationForm(new InformationFormCreator(
             carCreators: [new CarFormCreator(color: null)]
         ))
 
         when:
-        informationService.update(information.id, newInformationForm)
+        informationService.update(information.id, informationForm)
 
         then:
         def exception = thrown(NullPointerException)
@@ -331,21 +265,15 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should throw exception when information for update is not found in repository'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
         def notExistingId = information.id + '1'
 
         and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def informationForm = createInformationForm(new InformationFormCreator(
             description: 'New description'
         ))
 
         when:
-        informationService.update(notExistingId, newInformationForm)
+        informationService.update(notExistingId, informationForm)
 
         then:
         def exception = thrown(InformationRepository.NotFoundException)
@@ -354,25 +282,19 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should replace existing information and save in repository with new data'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def informationForm = createInformationForm(new InformationFormCreator(
             description: 'New description'
         ))
 
         when:
-        def replacedInformation = informationService.replace(information.id, newInformationForm)
+        def replacedInformation = informationService.replace(information.id, informationForm)
 
         and:
         def informationFromRepo = informationRepository.get(information.id)
 
         then:
-        verifyInformation(replacedInformation, newInformationForm)
-        verifyInformation(informationFromRepo, newInformationForm)
+        verifyInformation(replacedInformation, informationForm)
+        verifyInformation(informationFromRepo, informationForm)
 
         and:
         informationRepository.repository.size() == 1
@@ -380,21 +302,15 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should throw exception when information for replace is not found in repository'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
         def notExistingId = information.id + '1'
 
         and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def informationForm = createInformationForm(new InformationFormCreator(
             description: 'New description'
         ))
 
         when:
-        informationService.replace(notExistingId, newInformationForm)
+        informationService.replace(notExistingId, informationForm)
 
         then:
         def exception = thrown(InformationRepository.NotFoundException)
@@ -403,18 +319,12 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should throw exception when any field of information for replace is null'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
-        def newInformationForm = createInformationForm(new InformationFormCreator(
+        def informationForm = createInformationForm(new InformationFormCreator(
             description: null
         ))
 
         when:
-        informationService.replace(information.id, newInformationForm)
+        informationService.replace(information.id, informationForm)
 
         then:
         def exception = thrown(NullPointerException)
@@ -422,12 +332,6 @@ class InformationServiceImplUT extends Specification implements InformationFormC
     }
 
     def 'should delete existing information from repository'() {
-        given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
         expect:
         informationRepository.repository.size() == 1
 
@@ -441,12 +345,6 @@ class InformationServiceImplUT extends Specification implements InformationFormC
 
     def 'should throw exception when information for delete is not found in repository'() {
         given:
-        def information = createInformation()
-
-        and:
-        informationRepository.save(information)
-
-        and:
         def notExistingId = information.id + '1'
 
         when:

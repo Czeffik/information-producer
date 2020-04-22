@@ -11,7 +11,7 @@ trait CarFormCreation {
     }
 
     List<InformationService.CarForm> createCarForms(List<CarFormCreator> carFormCreators) {
-        return carFormCreators == null ? null : carFormCreators.collect { createCarForm(it) }
+        return carFormCreators?.collect { createCarForm(it) }
     }
 
     static class CarFormCreator {

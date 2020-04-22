@@ -24,7 +24,7 @@ trait InformationVerifier implements InformationCreation {
 
     List<Car> translateCarFormsInCars(List<Car> cars, List<InformationService.CarForm> carForms) {
         int index = 0
-        return carForms.collect { carForm -> createCar(new CarCreator(cars.get(index++), carForm)) }
+        return carForms.collect { carForm -> createCar(new CarCreator(cars.get(index++).id, carForm)) }
     }
 
 }

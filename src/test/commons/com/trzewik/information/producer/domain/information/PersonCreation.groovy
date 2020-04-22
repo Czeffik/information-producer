@@ -23,8 +23,8 @@ trait PersonCreation {
             this.lastName = person.lastName
         }
 
-        PersonCreator(InformationService.PersonForm personForm) {
-            this.id = UUID.randomUUID().toString()
+        PersonCreator(String id = UUID.randomUUID().toString(), InformationService.PersonForm personForm) {
+            this.id = id
             this.name = personForm.name
             this.lastName = personForm.lastName
         }
