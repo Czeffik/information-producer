@@ -18,5 +18,13 @@ trait CarFormCreation {
         String brand = 'Test form brand'
         String model = 'Test form model'
         String color = 'Test form color'
+
+        static CarFormCreator create(Map map) {
+            return new CarFormCreator(
+                brand: map.brand,
+                model: map.model,
+                color: map.color
+            )
+        }
     }
 }
