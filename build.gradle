@@ -10,6 +10,7 @@ buildscript {
         jacksonDatabindVersion = '2.10.3'
         swaggerVersion = '2.9.2'
         pitestVersion = '1.4.6'
+        contractPublisherVersion = '1.0.9'
 
         repositories(repos)
     }
@@ -21,6 +22,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'org.springframework.boot' version "$springBootVersion"
+    id 'com.hltech.judged.contracts.publisher' version "$contractPublisherVersion"
     id 'info.solidsoft.pitest' version "$pitestVersion"
 }
 
