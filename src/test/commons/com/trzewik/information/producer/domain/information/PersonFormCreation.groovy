@@ -12,12 +12,5 @@ trait PersonFormCreation {
     static class PersonFormCreator {
         String name = 'Test form name'
         String lastName = 'Test form last name'
-
-        static PersonFormCreator create(Map map) {
-            return new PersonFormCreator(
-                name: map.name,
-                lastName: map.lastName
-            )
-        }
     }
 }

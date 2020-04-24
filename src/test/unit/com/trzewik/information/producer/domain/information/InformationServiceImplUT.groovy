@@ -241,7 +241,7 @@ class InformationServiceImplUT extends Specification implements InformationFormC
             exception.message == "Can not find information with id: [${notExistingId}] in repository."
     }
 
-    def 'should throw exception when any field of information for replace is null'() {
+    def 'should throw exception when description field of information for replace is null'() {
         given:
             def newInformationForm = createInformationForm(new InformationFormCreator(
                 description: null
@@ -251,6 +251,40 @@ class InformationServiceImplUT extends Specification implements InformationFormC
         then:
             def exception = thrown(NullPointerException)
             exception.message == 'description is marked non-null but is null'
+    }
+
+    def 'should throw exception when message field of information for replace is null'() {
+        given:
+            def newInformationForm = createInformationForm(new InformationFormCreator(
+                message: null
+            ))
+        when:
+            informationService.replace(information.id, newInformationForm)
+        then:
+            def exception = thrown(NullPointerException)
+            exception.message == 'message is marked non-null but is null'
+    }
+
+    def 'should throw exception when person field of information for replace is null'() {
+        given:
+            def newInformationForm = createInformationForm(new InformationFormCreator(
+                personCreator: null
+            ))
+        when:
+            informationService.replace(information.id, newInformationForm)
+        then:
+            thrown(NullPointerException)
+    }
+
+    def 'should throw exception when car field of information for replace is null'() {
+        given:
+            def newInformationForm = createInformationForm(new InformationFormCreator(
+                carCreators: null
+            ))
+        when:
+            informationService.replace(information.id, newInformationForm)
+        then:
+            thrown(NullPointerException)
     }
 
     def 'should delete existing information from repository'() {
