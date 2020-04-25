@@ -4,7 +4,7 @@ import io.restassured.RestAssured
 import io.restassured.specification.RequestSpecification
 
 trait RequestSender {
-    int port
+    abstract int getPort()
 
     RequestSpecification request(String basePath) {
         return RestAssured.given()

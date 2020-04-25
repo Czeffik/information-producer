@@ -18,10 +18,6 @@ class AppFT extends Specification implements SwaggerRequestSender, FileOperator 
 
     JsonSlurper slurper = new JsonSlurper()
 
-    def setup() {
-        setPort(serverPort)
-    }
-
     def 'should return 200 and swagger json file on swagger api docs endpoint'() {
         when:
             def response = getApiDocsRequest()
@@ -49,5 +45,10 @@ class AppFT extends Specification implements SwaggerRequestSender, FileOperator 
                 statusCode() == 200
                 contentType.contains('text/html')
             }
+    }
+
+    @Override
+    int getPort() {
+        return serverPort
     }
 }
