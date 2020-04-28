@@ -124,7 +124,7 @@ public class InformationController {
     }
 
     @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<Object> handlInternalServerError(Exception ex) {
+    public ResponseEntity<Object> handleInternalServerError(Exception ex) {
         String message = ex.getMessage();
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         ErrorDto response = new ErrorDto(message, status);
