@@ -10,7 +10,7 @@ import io.restassured.response.Response
 
 trait InformationControllerRequestSender extends RequestSender {
 
-    Response getInformationRequest(String id) {
+    Response getInformationRequest(String id) throws InformationRepository.NotFoundException {
         return request("/information/${id}")
             .get()
             .thenReturn()
@@ -19,21 +19,23 @@ trait InformationControllerRequestSender extends RequestSender {
     Response createInformationRequest(InformationService.InformationForm form) {
         return request("/information")
             .contentType(ContentType.JSON)
-            .body(new JsonBuilder(form).toPrettyString())
+            .body(toJson(form))
             .post()
             .thenReturn()
     }
 
-    Response updateInformationRequest(String id, InformationService.InformationForm form) throws InformationRepository.NotFoundException {
+    Response putInformationRequest(String id, InformationService.InformationForm form) throws InformationRepository.NotFoundException {
         return request("/information/${id}")
-            .body(new JsonBuilder(form).toPrettyString())
+            .contentType(ContentType.JSON)
+            .body(toJson(form))
             .put()
             .thenReturn()
     }
 
     Response patchInformationRequest(String id, InformationService.InformationForm form) throws InformationRepository.NotFoundException {
         return request("/information/${id}")
-            .body(new JsonBuilder(form).toPrettyString())
+            .contentType(ContentType.JSON)
+            .body(toJson(form))
             .patch()
             .thenReturn()
     }
@@ -42,6 +44,10 @@ trait InformationControllerRequestSender extends RequestSender {
         return request("/information/${id}")
             .delete()
             .thenReturn()
+    }
+
+    String toJson(Object object) {
+        return new JsonBuilder(object).toPrettyString()
     }
 
 }

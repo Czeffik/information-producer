@@ -6,9 +6,11 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Profile
 import spock.mock.DetachedMockFactory
 
-@Profile('rest-interface-test-config')
+@Profile(TEST_CONFIG)
 @TestConfiguration
-class RestInterfacesConfigurationTest {
+class RestInterfacesTestConfiguration {
+
+    public final static String TEST_CONFIG = 'rest-interfaces-test-config'
 
     DetachedMockFactory factory = new DetachedMockFactory()
 
