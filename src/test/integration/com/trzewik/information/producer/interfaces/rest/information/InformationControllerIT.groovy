@@ -57,6 +57,23 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
             verifyError(response, expectedError)
     }
 
+    def 'should return internal server error http status when Exception is thrown by get'() {
+        given:
+            def id = 'Some-test-id'
+        and:
+            def expectedError = new ErrorDto(
+                null,
+                HttpStatus.INTERNAL_SERVER_ERROR)
+        when:
+            def response = getInformationRequest(id)
+        then:
+            1 * informationService.get(id) >> { throw new RuntimeException() }
+        then:
+            response.statusCode() == 500
+        then:
+            verifyError(response, expectedError)
+    }
+
     def 'should create new information and return information representation'() {
         given:
             def informationForm = createInformationForm()
@@ -85,6 +102,23 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
             1 * informationService.create(informationForm) >> { throw new NullPointerException() }
         then:
             response.statusCode() == 400
+        then:
+            verifyError(response, expectedError)
+    }
+
+    def 'should return internal server error http status when Exception is thrown by create'() {
+        given:
+            def informationForm = createInformationForm(InformationFormCreator.create([:]))
+        and:
+            def expectedError = new ErrorDto(
+                null,
+                HttpStatus.INTERNAL_SERVER_ERROR)
+        when:
+            def response = createInformationRequest(informationForm)
+        then:
+            1 * informationService.create(informationForm) >> { throw new RuntimeException() }
+        then:
+            response.statusCode() == 500
         then:
             verifyError(response, expectedError)
     }
@@ -123,6 +157,44 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
             verifyError(response, expectedError)
     }
 
+    def 'should return bad request http status when NullPointerException is thrown by put'() {
+        given:
+            def id = 'Some-test-id'
+        and:
+            def informationForm = createInformationForm()
+        and:
+            def expectedError = new ErrorDto(
+                null,
+                HttpStatus.BAD_REQUEST)
+        when:
+            def response = putInformationRequest(id, informationForm)
+        then:
+            1 * informationService.replace(id, informationForm) >> { throw new NullPointerException() }
+        then:
+            response.statusCode() == 400
+        then:
+            verifyError(response, expectedError)
+    }
+
+    def 'should return internal server error http status when Exception is thrown by put'() {
+        given:
+            def id = 'Some-test-id'
+        and:
+            def informationForm = createInformationForm()
+        and:
+            def expectedError = new ErrorDto(
+                null,
+                HttpStatus.INTERNAL_SERVER_ERROR)
+        when:
+            def response = putInformationRequest(id, informationForm)
+        then:
+            1 * informationService.replace(id, informationForm) >> { throw new RuntimeException() }
+        then:
+            response.statusCode() == 500
+        then:
+            verifyError(response, expectedError)
+    }
+
     def 'should patch existing information and return information representation'() {
         given:
             def informationForm = createInformationForm()
@@ -157,6 +229,44 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
             verifyError(response, expectedError)
     }
 
+    def 'should return bad request http status when NullPointerException is thrown by patch'() {
+        given:
+            def id = 'Some-test-id'
+        and:
+            def informationForm = createInformationForm()
+        and:
+            def expectedError = new ErrorDto(
+                null,
+                HttpStatus.BAD_REQUEST)
+        when:
+            def response = patchInformationRequest(id, informationForm)
+        then:
+            1 * informationService.update(id, informationForm) >> { throw new NullPointerException() }
+        then:
+            response.statusCode() == 400
+        then:
+            verifyError(response, expectedError)
+    }
+
+    def 'should return internal server error http status when Exception is thrown by patch'() {
+        given:
+            def id = 'Some-test-id'
+        and:
+            def informationForm = createInformationForm()
+        and:
+            def expectedError = new ErrorDto(
+                null,
+                HttpStatus.INTERNAL_SERVER_ERROR)
+        when:
+            def response = patchInformationRequest(id, informationForm)
+        then:
+            1 * informationService.update(id, informationForm) >> { throw new RuntimeException() }
+        then:
+            response.statusCode() == 500
+        then:
+            verifyError(response, expectedError)
+    }
+
     def 'should delete existing information and return information representation'() {
         given:
             def information = createInformation()
@@ -183,6 +293,23 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
             1 * informationService.delete(id) >> { throw new InformationRepository.NotFoundException(id) }
         then:
             response.statusCode() == 404
+        then:
+            verifyError(response, expectedError)
+    }
+
+    def 'should return internal server error http status when Exception is thrown by delete'() {
+        given:
+            def id = 'Some-test-id'
+        and:
+            def expectedError = new ErrorDto(
+                null,
+                HttpStatus.INTERNAL_SERVER_ERROR)
+        when:
+            def response = deleteInformationRequest(id)
+        then:
+            1 * informationService.delete(id) >> { throw new RuntimeException() }
+        then:
+            response.statusCode() == 500
         then:
             verifyError(response, expectedError)
     }
