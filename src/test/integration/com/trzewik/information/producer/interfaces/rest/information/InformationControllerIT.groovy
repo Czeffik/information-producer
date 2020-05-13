@@ -26,7 +26,6 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
     @Autowired
     InformationService informationService
 
-
     def 'should get information by id and return information representation'() {
         given:
             def information = createInformation()
@@ -108,7 +107,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
 
     def 'should return internal server error http status when Exception is thrown by create'() {
         given:
-            def informationForm = createInformationForm(InformationFormCreator.create([:]))
+            def informationForm = createInformationForm()
         and:
             def expectedError = new ErrorDto(
                 null,
@@ -161,7 +160,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         given:
             def id = 'Some-test-id'
         and:
-            def informationForm = createInformationForm()
+            def informationForm = createInformationForm(InformationFormCreator.create([:]))
         and:
             def expectedError = new ErrorDto(
                 null,
@@ -313,5 +312,4 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         then:
             verifyError(response, expectedError)
     }
-
 }
