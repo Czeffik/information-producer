@@ -5,6 +5,7 @@ import groovy.json.JsonSlurper
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.ActiveProfiles
+import spock.lang.Shared
 import spock.lang.Specification
 
 @ActiveProfiles('test')
@@ -16,6 +17,7 @@ class AppFT extends Specification implements SwaggerRequestSender, FileOperator 
     @LocalServerPort
     int serverPort
 
+    @Shared
     JsonSlurper slurper = new JsonSlurper()
 
     def 'should return 200 and swagger json file on swagger api docs endpoint'() {
