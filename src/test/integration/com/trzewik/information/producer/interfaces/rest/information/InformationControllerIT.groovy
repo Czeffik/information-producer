@@ -60,13 +60,15 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         given:
             def id = 'Some-test-id'
         and:
+            def exceptionMessage = 'Runtime exception was thrown'
+        and:
             def expectedError = new ErrorDto(
-                '',
+                exceptionMessage,
                 HttpStatus.INTERNAL_SERVER_ERROR)
         when:
             def response = getInformationRequest(id)
         then:
-            1 * informationService.get(id) >> { throw new RuntimeException() }
+            1 * informationService.get(id) >> { throw new Exception(exceptionMessage) }
         then:
             response.statusCode() == 500
         then:
@@ -109,13 +111,15 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         given:
             def informationForm = createInformationForm()
         and:
+            def exceptionMessage = 'Runtime exception was thrown'
+        and:
             def expectedError = new ErrorDto(
-                '',
+                exceptionMessage,
                 HttpStatus.INTERNAL_SERVER_ERROR)
         when:
             def response = createInformationRequest(informationForm)
         then:
-            1 * informationService.create(informationForm) >> { throw new RuntimeException() }
+            1 * informationService.create(informationForm) >> { throw new RuntimeException(exceptionMessage) }
         then:
             response.statusCode() == 500
         then:
@@ -181,13 +185,15 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         and:
             def informationForm = createInformationForm()
         and:
+            def exceptionMessage = 'Runtime exception was thrown'
+        and:
             def expectedError = new ErrorDto(
-                '',
+                exceptionMessage,
                 HttpStatus.INTERNAL_SERVER_ERROR)
         when:
             def response = putInformationRequest(id, informationForm)
         then:
-            1 * informationService.replace(id, informationForm) >> { throw new RuntimeException() }
+            1 * informationService.replace(id, informationForm) >> { throw new RuntimeException(exceptionMessage) }
         then:
             response.statusCode() == 500
         then:
@@ -253,13 +259,15 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         and:
             def informationForm = createInformationForm()
         and:
+            def exceptionMessage = 'Runtime exception was thrown'
+        and:
             def expectedError = new ErrorDto(
-                '',
+                exceptionMessage,
                 HttpStatus.INTERNAL_SERVER_ERROR)
         when:
             def response = patchInformationRequest(id, informationForm)
         then:
-            1 * informationService.update(id, informationForm) >> { throw new RuntimeException() }
+            1 * informationService.update(id, informationForm) >> { throw new RuntimeException(exceptionMessage) }
         then:
             response.statusCode() == 500
         then:
@@ -300,13 +308,15 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         given:
             def id = 'Some-test-id'
         and:
+            def exceptionMessage = 'Exception was thrown'
+        and:
             def expectedError = new ErrorDto(
-                '',
+                exceptionMessage,
                 HttpStatus.INTERNAL_SERVER_ERROR)
         when:
             def response = deleteInformationRequest(id)
         then:
-            1 * informationService.delete(id) >> { throw new RuntimeException() }
+            1 * informationService.delete(id) >> { throw new Exception(exceptionMessage) }
         then:
             response.statusCode() == 500
         then:
