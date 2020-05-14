@@ -61,7 +61,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
             def id = 'Some-test-id'
         and:
             def expectedError = new ErrorDto(
-                null,
+                '',
                 HttpStatus.INTERNAL_SERVER_ERROR)
         when:
             def response = getInformationRequest(id)
@@ -93,7 +93,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
             def informationForm = createInformationForm(InformationFormCreator.create([:]))
         and:
             def expectedError = new ErrorDto(
-                null,
+                '',
                 HttpStatus.BAD_REQUEST)
         when:
             def response = createInformationRequest(informationForm)
@@ -110,7 +110,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
             def informationForm = createInformationForm()
         and:
             def expectedError = new ErrorDto(
-                null,
+                '',
                 HttpStatus.INTERNAL_SERVER_ERROR)
         when:
             def response = createInformationRequest(informationForm)
@@ -163,7 +163,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
             def informationForm = createInformationForm(InformationFormCreator.create([:]))
         and:
             def expectedError = new ErrorDto(
-                null,
+                '',
                 HttpStatus.BAD_REQUEST)
         when:
             def response = putInformationRequest(id, informationForm)
@@ -182,7 +182,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
             def informationForm = createInformationForm()
         and:
             def expectedError = new ErrorDto(
-                null,
+                '',
                 HttpStatus.INTERNAL_SERVER_ERROR)
         when:
             def response = putInformationRequest(id, informationForm)
@@ -235,7 +235,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
             def informationForm = createInformationForm()
         and:
             def expectedError = new ErrorDto(
-                null,
+                '',
                 HttpStatus.BAD_REQUEST)
         when:
             def response = patchInformationRequest(id, informationForm)
@@ -254,7 +254,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
             def informationForm = createInformationForm()
         and:
             def expectedError = new ErrorDto(
-                null,
+                '',
                 HttpStatus.INTERNAL_SERVER_ERROR)
         when:
             def response = patchInformationRequest(id, informationForm)
@@ -301,7 +301,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
             def id = 'Some-test-id'
         and:
             def expectedError = new ErrorDto(
-                null,
+                '',
                 HttpStatus.INTERNAL_SERVER_ERROR)
         when:
             def response = deleteInformationRequest(id)
