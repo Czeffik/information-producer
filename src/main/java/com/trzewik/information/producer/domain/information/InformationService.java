@@ -3,6 +3,7 @@ package com.trzewik.information.producer.domain.information;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -21,17 +22,20 @@ public interface InformationService {
     }
 
     @Getter
+    @ToString
     @RequiredArgsConstructor
     class GetInformationCommand implements Command {
         private final @NonNull String id;
     }
 
     @Getter
+    @ToString
     @RequiredArgsConstructor
     class DeleteInformationCommand implements Command {
         private final @NonNull String id;
     }
 
+    @ToString
     class CreateInformationCommand extends InformationCommand {
         public CreateInformationCommand(
             @NonNull String description,
@@ -44,6 +48,7 @@ public interface InformationService {
     }
 
     @Getter
+    @ToString
     class UpdateInformationCommand extends InformationCommand {
         private final String id;
 
@@ -60,6 +65,7 @@ public interface InformationService {
     }
 
     @Getter
+    @ToString
     class ReplaceInformationCommand extends InformationCommand {
         private final String id;
 
@@ -76,6 +82,7 @@ public interface InformationService {
     }
 
     @Getter
+    @ToString
     @RequiredArgsConstructor
     abstract class InformationCommand implements Command {
         private final String description;
@@ -84,6 +91,7 @@ public interface InformationService {
         private final List<Car> cars;
 
         @Getter
+        @ToString
         @RequiredArgsConstructor
         public static class Person {
             private final String name;
@@ -91,6 +99,7 @@ public interface InformationService {
         }
 
         @Getter
+        @ToString
         @RequiredArgsConstructor
         public static class Car {
             private final String brand;
