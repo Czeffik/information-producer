@@ -24,7 +24,7 @@ class InformationServiceImpl implements InformationService {
     }
 
     @Override
-    public Information update(UpdateInformationCommand updateInformationCommand) throws InformationRepository.NotFoundException {
+    public Information update(@NonNull UpdateInformationCommand updateInformationCommand) throws InformationRepository.NotFoundException {
         Information current = repository.get(updateInformationCommand.getId());
         Information information = new Information(current, updateInformationCommand);
         repository.update(information);
@@ -32,7 +32,7 @@ class InformationServiceImpl implements InformationService {
     }
 
     @Override
-    public Information replace(ReplaceInformationCommand replaceInformationCommand) throws InformationRepository.NotFoundException {
+    public Information replace(@NonNull ReplaceInformationCommand replaceInformationCommand) throws InformationRepository.NotFoundException {
         repository.get(replaceInformationCommand.getId());
         Information information = new Information(replaceInformationCommand.getId(), replaceInformationCommand);
         repository.update(information);
@@ -40,7 +40,7 @@ class InformationServiceImpl implements InformationService {
     }
 
     @Override
-    public Information delete(DeleteInformationCommand deleteInformationCommand) throws InformationRepository.NotFoundException {
+    public Information delete(@NonNull DeleteInformationCommand deleteInformationCommand) throws InformationRepository.NotFoundException {
         Information information = repository.get(deleteInformationCommand.getId());
         repository.delete(deleteInformationCommand.getId());
         return information;
