@@ -1,6 +1,5 @@
 package com.trzewik.information.producer.domain.information;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -8,15 +7,15 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 public interface InformationService {
-    Information get(String id) throws InformationRepository.NotFoundException;
+    Information get(GetInformationCommand command) throws InformationRepository.NotFoundException;
 
-    Information create(InformationForm form);
+    Information create(CreateInformationCommand command);
 
-    Information update(String id, InformationForm form) throws InformationRepository.NotFoundException;
+    Information update(UpdateInformationCommand command) throws InformationRepository.NotFoundException;
 
-    Information replace(String id, InformationForm form) throws InformationRepository.NotFoundException;
+    Information replace(ReplaceInformationCommand command) throws InformationRepository.NotFoundException;
 
-    Information delete(String id) throws InformationRepository.NotFoundException;
+    Information delete(DeleteInformationCommand command) throws InformationRepository.NotFoundException;
 
     interface Command {
     }
@@ -98,27 +97,5 @@ public interface InformationService {
             private final String model;
             private final String color;
         }
-    }
-
-
-    @Data
-    class InformationForm {
-        private String description;
-        private String message;
-        private PersonForm person;
-        private List<CarForm> cars;
-    }
-
-    @Data
-    class PersonForm {
-        private String name;
-        private String lastName;
-    }
-
-    @Data
-    class CarForm {
-        private String brand;
-        private String model;
-        private String color;
     }
 }

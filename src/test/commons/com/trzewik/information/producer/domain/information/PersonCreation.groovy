@@ -23,10 +23,10 @@ trait PersonCreation {
             this.lastName = person.lastName
         }
 
-        PersonCreator(String id = UUID.randomUUID().toString(), InformationService.PersonForm personForm) {
+        PersonCreator(String id = UUID.randomUUID().toString(), InformationService.InformationCommand.Person person) {
             this.id = id
-            this.name = personForm.name
-            this.lastName = personForm.lastName
+            this.name = person.name
+            this.lastName = person.lastName
         }
     }
 
