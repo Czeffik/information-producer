@@ -284,56 +284,6 @@ class InformationServiceImplUT extends Specification implements InformationComma
             exception.message == "Can not find information with id: [${command.id}] in repository."
     }
 
-    def 'should throw exception when description is null in replaces command'() {
-        when:
-            createReplaceInformationCommand(
-                new ReplaceInformationCommandCreator(
-                    id: information.id,
-                    description: null
-                )
-            )
-        then:
-            def exception = thrown(NullPointerException)
-            exception.message == 'description is marked non-null but is null'
-    }
-
-    def 'should throw exception when message is null in replaces command'() {
-        when:
-            createReplaceInformationCommand(
-                new ReplaceInformationCommandCreator(
-                    id: information.id,
-                    message: null
-                )
-            )
-        then:
-            def exception = thrown(NullPointerException)
-            exception.message == 'message is marked non-null but is null'
-    }
-
-    def 'should throw exception when person is null in replaces command'() {
-        when:
-           createReplaceInformationCommand(
-                new ReplaceInformationCommandCreator(
-                    id: information.id,
-                    person: null
-                )
-            )
-        then:
-            thrown(NullPointerException)
-    }
-
-    def 'should throw exception when cars is null in replaces command'() {
-        when:
-            createReplaceInformationCommand(
-                new ReplaceInformationCommandCreator(
-                    id: information.id,
-                    cars: null
-                )
-            )
-        then:
-            thrown(NullPointerException)
-    }
-
     def 'should delete existing information from repository'() {
         given:
             def command = createDeleteInformationCommand(
@@ -358,5 +308,145 @@ class InformationServiceImplUT extends Specification implements InformationComma
         then:
             def exception = thrown(InformationRepository.NotFoundException)
             exception.message == "Can not find information with id: [${command.id}] in repository."
+    }
+
+    def 'should throw exception when description is null in create command'() {
+        when:
+            createCreateInformationCommand(
+                new CreateInformationCommandCreator(
+                    description: null
+                )
+            )
+        then:
+            def exception = thrown(NullPointerException)
+            exception.message == 'description is marked non-null but is null'
+    }
+
+    def 'should throw exception when message is null in create command'() {
+        when:
+            createCreateInformationCommand(
+                new CreateInformationCommandCreator(
+                    message: null
+                )
+            )
+        then:
+            def exception = thrown(NullPointerException)
+            exception.message == 'message is marked non-null but is null'
+    }
+
+    def 'should throw exception when person is null in create command'() {
+        when:
+            createCreateInformationCommand(
+                new CreateInformationCommandCreator(
+                    person: null
+                )
+            )
+        then:
+            thrown(NullPointerException)
+    }
+
+    def 'should throw exception when cars is null in create command'() {
+        when:
+            createCreateInformationCommand(
+                new CreateInformationCommandCreator(
+                    cars: null
+                )
+            )
+        then:
+            thrown(NullPointerException)
+    }
+
+    def 'should throw exception when id is null in get command'() {
+        when:
+            createGetInformationCommand(
+                new GetInformationCommandCreator(
+                    id: null
+                )
+            )
+        then:
+            def exception = thrown(NullPointerException)
+            exception.message == 'id is marked non-null but is null'
+    }
+
+    def 'should throw exception when id is null in delete command'() {
+        when:
+            createDeleteInformationCommand(
+                new DeleteInformationCommandCreator(
+                    id: null
+                )
+            )
+        then:
+            def exception = thrown(NullPointerException)
+            exception.message == 'id is marked non-null but is null'
+    }
+
+    def 'should throw exception when id is null in update command'() {
+        when:
+            createUpdateInformationCommand(
+                new UpdateInformationCommandCreator(
+                    id: null
+                )
+            )
+        then:
+            def exception = thrown(NullPointerException)
+            exception.message == 'id is marked non-null but is null'
+    }
+
+    def 'should throw exception when id is null in replace command'() {
+        when:
+            createReplaceInformationCommand(
+                new ReplaceInformationCommandCreator(
+                    id: null
+                )
+            )
+        then:
+            def exception = thrown(NullPointerException)
+            exception.message == 'id is marked non-null but is null'
+    }
+
+    def 'should throw exception when description is null in replace command'() {
+        when:
+            createReplaceInformationCommand(
+                new ReplaceInformationCommandCreator(
+                    description: null
+                )
+            )
+        then:
+            def exception = thrown(NullPointerException)
+            exception.message == 'description is marked non-null but is null'
+    }
+
+    def 'should throw exception when message is null in replace command'() {
+        when:
+            createReplaceInformationCommand(
+                new ReplaceInformationCommandCreator(
+                    message: null
+                )
+            )
+        then:
+            def exception = thrown(NullPointerException)
+            exception.message == 'message is marked non-null but is null'
+    }
+
+    def 'should throw exception when person is null in replace command'() {
+        when:
+            createReplaceInformationCommand(
+                new ReplaceInformationCommandCreator(
+                    person: null
+                )
+            )
+        then:
+            thrown(NullPointerException)
+    }
+
+    def 'should throw exception when cars is null in replace command'() {
+        when:
+            createReplaceInformationCommand(
+                new ReplaceInformationCommandCreator(
+                    cars: null
+                )
+            )
+        then:
+            thrown(NullPointerException)
     }
 }
