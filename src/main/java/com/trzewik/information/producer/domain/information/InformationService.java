@@ -2,6 +2,7 @@ package com.trzewik.information.producer.domain.information;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -23,17 +24,22 @@ public interface InformationService {
     @Getter
     @RequiredArgsConstructor
     class GetInformationCommand implements Command {
-        private final String id;
+        private final @NonNull String id;
     }
 
     @Getter
     @RequiredArgsConstructor
     class DeleteInformationCommand implements Command {
-        private final String id;
+        private final @NonNull String id;
     }
 
     class CreateInformationCommand extends InformationCommand {
-        public CreateInformationCommand(String description, String message, Person person, List<Car> cars) {
+        public CreateInformationCommand(
+            @NonNull String description,
+            @NonNull String message,
+            @NonNull Person person,
+            @NonNull List<Car> cars
+        ) {
             super(description, message, person, cars);
         }
     }
@@ -42,7 +48,13 @@ public interface InformationService {
     class UpdateInformationCommand extends InformationCommand {
         private final String id;
 
-        public UpdateInformationCommand(String id, String description, String message, Person person, List<Car> cars) {
+        public UpdateInformationCommand(
+            @NonNull String id,
+            String description,
+            String message,
+            Person person,
+            List<Car> cars
+        ) {
             super(description, message, person, cars);
             this.id = id;
         }
@@ -52,7 +64,13 @@ public interface InformationService {
     class ReplaceInformationCommand extends InformationCommand {
         private final String id;
 
-        public ReplaceInformationCommand(String id, String description, String message, Person person, List<Car> cars) {
+        public ReplaceInformationCommand(
+            @NonNull String id,
+            @NonNull String description,
+            @NonNull String message,
+            @NonNull Person person,
+            @NonNull List<Car> cars
+        ) {
             super(description, message, person, cars);
             this.id = id;
         }
