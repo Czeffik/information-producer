@@ -1,6 +1,18 @@
 package com.trzewik.information.producer.interfaces.rest.information
 
+import com.trzewik.information.producer.domain.information.CarCreation
+import com.trzewik.information.producer.domain.information.InformationCreation
+import com.trzewik.information.producer.domain.information.PersonCreation
+
 trait InformationFormsCreation {
+
+    InformationCreation.InformationCreator createInformationCreator(InformationController.InformationForm informationForm) {
+        return new InformationCreation.InformationCreator(
+            description: informationForm.description,
+            message: informationForm.message,
+            personCreator: new PersonCreation.PersonCreator(name: informationForm.person.name, lastName: informationForm.person.lastName),
+            carCreators: informationForm.cars.collect { new CarCreation.CarCreator(brand: it.brand, model: it.model, color: it.color) })
+    }
 
     InformationController.CarForm createCarForm(CarFormCreator creator = new CarFormCreator()) {
         return new InformationController.CarForm(

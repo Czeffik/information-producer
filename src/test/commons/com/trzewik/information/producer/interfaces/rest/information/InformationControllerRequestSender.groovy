@@ -1,8 +1,6 @@
 package com.trzewik.information.producer.interfaces.rest.information
 
-
 import com.trzewik.information.producer.domain.information.InformationRepository
-import com.trzewik.information.producer.domain.information.InformationService
 import com.trzewik.information.producer.interfaces.rest.RequestSender
 import groovy.json.JsonBuilder
 import io.restassured.http.ContentType
@@ -16,7 +14,7 @@ trait InformationControllerRequestSender extends RequestSender {
             .thenReturn()
     }
 
-    Response createInformationRequest(InformationService.InformationForm form) {
+    Response createInformationRequest(InformationController.InformationForm form) {
         return request("/information")
             .contentType(ContentType.JSON)
             .body(toJson(form))
@@ -24,7 +22,7 @@ trait InformationControllerRequestSender extends RequestSender {
             .thenReturn()
     }
 
-    Response putInformationRequest(String id, InformationService.InformationForm form) throws InformationRepository.NotFoundException {
+    Response putInformationRequest(String id, InformationController.InformationForm form) throws InformationRepository.NotFoundException {
         return request("/information/${id}")
             .contentType(ContentType.JSON)
             .body(toJson(form))
@@ -32,7 +30,7 @@ trait InformationControllerRequestSender extends RequestSender {
             .thenReturn()
     }
 
-    Response patchInformationRequest(String id, InformationService.InformationForm form) throws InformationRepository.NotFoundException {
+    Response patchInformationRequest(String id, InformationController.InformationForm form) throws InformationRepository.NotFoundException {
         return request("/information/${id}")
             .contentType(ContentType.JSON)
             .body(toJson(form))

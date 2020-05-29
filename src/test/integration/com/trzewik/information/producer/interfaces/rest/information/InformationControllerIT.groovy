@@ -1,7 +1,7 @@
 package com.trzewik.information.producer.interfaces.rest.information
 
+
 import com.trzewik.information.producer.domain.information.InformationCreation
-import com.trzewik.information.producer.domain.information.InformationFormCreation
 import com.trzewik.information.producer.domain.information.InformationRepository
 import com.trzewik.information.producer.domain.information.InformationService
 import com.trzewik.information.producer.interfaces.rest.RestInterfacesConfiguration
@@ -18,7 +18,7 @@ import spock.lang.Specification
     classes = [RestInterfacesConfiguration.class, RestInterfacesTestConfiguration.class],
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
-class InformationControllerIT extends Specification implements ResponseVerifier, InformationControllerRequestSender, InformationFormCreation, InformationCreation {
+class InformationControllerIT extends Specification implements ResponseVerifier, InformationControllerRequestSender, InformationFormsCreation, InformationCreation {
 
     @LocalServerPort
     int port
@@ -32,7 +32,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         when:
             def response = getInformationRequest(information.id)
         then:
-            1 * informationService.get(information.id) >> information
+            1 * informationService.get(_) >> information
         then:
             response.statusCode() == 200
         then:
@@ -49,18 +49,18 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         when:
             def response = getInformationRequest(id)
         then:
-            1 * informationService.get(id) >> { throw new InformationRepository.NotFoundException(id) }
+            1 * informationService.get(_) >> { throw new InformationRepository.NotFoundException(id) }
         then:
             response.statusCode() == 404
         then:
             verifyError(response, expectedError)
     }
 
-    def 'should return internal server error http status when Exception is thrown by get'() {
+    def 'should return internal server error http status when RuntimeException is thrown by get'() {
         given:
             def id = 'Some-test-id'
         and:
-            def exceptionMessage = 'Runtime exception was thrown'
+            def exceptionMessage = 'RuntimeException was thrown'
         and:
             def expectedError = new ErrorDto(
                 exceptionMessage,
@@ -68,7 +68,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         when:
             def response = getInformationRequest(id)
         then:
-            1 * informationService.get(id) >> { throw new Exception(exceptionMessage) }
+            1 * informationService.get(_) >> { throw new RuntimeException(exceptionMessage) }
         then:
             response.statusCode() == 500
         then:
@@ -79,11 +79,11 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         given:
             def informationForm = createInformationForm()
         and:
-            def information = createInformation(new InformationCreator(informationForm))
+            def information = createInformation(createInformationCreator(informationForm))
         when:
             def response = createInformationRequest(informationForm)
         then:
-            1 * informationService.create(informationForm) >> information
+            1 * informationService.create(_) >> information
         then:
             response.statusCode() == 201
         then:
@@ -99,8 +99,6 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
                 HttpStatus.BAD_REQUEST)
         when:
             def response = createInformationRequest(informationForm)
-        then:
-            1 * informationService.create(informationForm) >> { throw new NullPointerException() }
         then:
             response.statusCode() == 400
         then:
@@ -119,7 +117,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         when:
             def response = createInformationRequest(informationForm)
         then:
-            1 * informationService.create(informationForm) >> { throw new RuntimeException(exceptionMessage) }
+            1 * informationService.create(_) >> { throw new RuntimeException(exceptionMessage) }
         then:
             response.statusCode() == 500
         then:
@@ -130,11 +128,11 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         given:
             def informationForm = createInformationForm()
         and:
-            def information = createInformation(new InformationCreator(informationForm))
+            def information = createInformation(createInformationCreator(informationForm))
         when:
             def response = putInformationRequest(information.id, informationForm)
         then:
-            1 * informationService.replace(information.id, informationForm) >> information
+            1 * informationService.replace(_) >> information
         then:
             response.statusCode() == 200
         then:
@@ -153,7 +151,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         when:
             def response = putInformationRequest(id, informationForm)
         then:
-            1 * informationService.replace(id, informationForm) >> { throw new InformationRepository.NotFoundException(id) }
+            1 * informationService.replace(_) >> { throw new InformationRepository.NotFoundException(id) }
         then:
             response.statusCode() == 404
         then:
@@ -171,8 +169,6 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
                 HttpStatus.BAD_REQUEST)
         when:
             def response = putInformationRequest(id, informationForm)
-        then:
-            1 * informationService.replace(id, informationForm) >> { throw new NullPointerException() }
         then:
             response.statusCode() == 400
         then:
@@ -193,7 +189,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         when:
             def response = putInformationRequest(id, informationForm)
         then:
-            1 * informationService.replace(id, informationForm) >> { throw new RuntimeException(exceptionMessage) }
+            1 * informationService.replace(_) >> { throw new RuntimeException(exceptionMessage) }
         then:
             response.statusCode() == 500
         then:
@@ -204,11 +200,11 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         given:
             def informationForm = createInformationForm()
         and:
-            def information = createInformation(new InformationCreator(informationForm))
+            def information = createInformation(createInformationCreator(informationForm))
         when:
             def response = patchInformationRequest(information.id, informationForm)
         then:
-            1 * informationService.update(information.id, informationForm) >> information
+            1 * informationService.update(_) >> information
         then:
             response.statusCode() == 200
         then:
@@ -227,7 +223,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         when:
             def response = patchInformationRequest(id, informationForm)
         then:
-            1 * informationService.update(id, informationForm) >> { throw new InformationRepository.NotFoundException(id) }
+            1 * informationService.update(_) >> { throw new InformationRepository.NotFoundException(id) }
         then:
             response.statusCode() == 404
         then:
@@ -246,7 +242,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         when:
             def response = patchInformationRequest(id, informationForm)
         then:
-            1 * informationService.update(id, informationForm) >> { throw new NullPointerException() }
+            1 * informationService.update(_) >> { throw new NullPointerException() }
         then:
             response.statusCode() == 400
         then:
@@ -267,7 +263,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         when:
             def response = patchInformationRequest(id, informationForm)
         then:
-            1 * informationService.update(id, informationForm) >> { throw new RuntimeException(exceptionMessage) }
+            1 * informationService.update(_) >> { throw new RuntimeException(exceptionMessage) }
         then:
             response.statusCode() == 500
         then:
@@ -280,7 +276,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         when:
             def response = deleteInformationRequest(information.id)
         then:
-            1 * informationService.delete(information.id) >> information
+            1 * informationService.delete(_) >> information
         then:
             response.statusCode() == 200
         then:
@@ -297,18 +293,18 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         when:
             def response = deleteInformationRequest(id)
         then:
-            1 * informationService.delete(id) >> { throw new InformationRepository.NotFoundException(id) }
+            1 * informationService.delete(_) >> { throw new InformationRepository.NotFoundException(id) }
         then:
             response.statusCode() == 404
         then:
             verifyError(response, expectedError)
     }
 
-    def 'should return internal server error http status when Exception is thrown by delete'() {
+    def 'should return internal server error http status when RuntimeException is thrown by delete'() {
         given:
             def id = 'Some-test-id'
         and:
-            def exceptionMessage = 'Exception was thrown'
+            def exceptionMessage = 'RuntimeException was thrown'
         and:
             def expectedError = new ErrorDto(
                 exceptionMessage,
@@ -316,7 +312,7 @@ class InformationControllerIT extends Specification implements ResponseVerifier,
         when:
             def response = deleteInformationRequest(id)
         then:
-            1 * informationService.delete(id) >> { throw new Exception(exceptionMessage) }
+            1 * informationService.delete(_) >> { throw new RuntimeException(exceptionMessage) }
         then:
             response.statusCode() == 500
         then:
