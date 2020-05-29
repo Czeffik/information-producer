@@ -19,11 +19,11 @@ public class Person {
     @NonNull
     private final String lastName;
 
-    Person(@NonNull InformationService.PersonForm form) {
+    Person(@NonNull InformationService.InformationCommand.Person person) {
         this(
             UUID.randomUUID().toString(),
-            form.getName(),
-            form.getLastName()
+            person.getName(),
+            person.getLastName()
         );
     }
 }

@@ -25,27 +25,27 @@ public class Information {
     @NonNull
     private final List<Car> cars;
 
-    Information(@NonNull InformationService.InformationForm form) {
-        this(UUID.randomUUID().toString(), form);
+    Information(@NonNull InformationService.InformationCommand command) {
+        this(UUID.randomUUID().toString(), command);
     }
 
-    Information(@NonNull String id, @NonNull InformationService.InformationForm form) {
+    Information(@NonNull String id, @NonNull InformationService.InformationCommand command) {
         this(
             id,
-            form.getDescription(),
-            form.getMessage(),
-            new Person(form.getPerson()),
-            form.getCars().stream().map(Car::new).collect(Collectors.toList())
+            command.getDescription(),
+            command.getMessage(),
+            new Person(command.getPerson()),
+            command.getCars().stream().map(Car::new).collect(Collectors.toList())
         );
     }
 
-    Information(@NonNull Information information, @NonNull InformationService.InformationForm form) {
+    Information(@NonNull Information information, @NonNull InformationService.InformationCommand command) {
         this(
             information.id,
-            form.getDescription() == null ? information.description : form.getDescription(),
-            form.getMessage() == null ? information.message : form.getMessage(),
-            form.getPerson() == null ? information.person : new Person(form.getPerson()),
-            form.getCars() == null ? information.cars : form.getCars().stream().map(Car::new).collect(Collectors.toList())
+            command.getDescription() == null ? information.description : command.getDescription(),
+            command.getMessage() == null ? information.message : command.getMessage(),
+            command.getPerson() == null ? information.person : new Person(command.getPerson()),
+            command.getCars() == null ? information.cars : command.getCars().stream().map(Car::new).collect(Collectors.toList())
         );
     }
 }

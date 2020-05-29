@@ -30,12 +30,12 @@ trait InformationCreation implements CarCreation, PersonCreation {
             this.carCreators = information.cars.collect { new CarCreator(it) }
         }
 
-        InformationCreator(String id = UUID.randomUUID().toString(), InformationService.InformationForm informationForm) {
+        InformationCreator(String id = UUID.randomUUID().toString(), InformationService.InformationCommand informationCommand) {
             this.id = id
-            this.description = informationForm.description
-            this.message = informationForm.message
-            this.personCreator = new PersonCreator(informationForm.person)
-            this.carCreators = informationForm.cars.collect { new CarCreator(it) }
+            this.description = informationCommand.description
+            this.message = informationCommand.message
+            this.personCreator = new PersonCreator(informationCommand.person)
+            this.carCreators = informationCommand.cars.collect { new CarCreator(it) }
         }
     }
 }

@@ -21,12 +21,12 @@ public class Car {
     @NonNull
     private final String color;
 
-    Car(@NonNull InformationService.CarForm form) {
+    Car(@NonNull InformationService.InformationCommand.Car car) {
         this(
             UUID.randomUUID().toString(),
-            form.getBrand(),
-            form.getModel(),
-            form.getColor()
+            car.getBrand(),
+            car.getModel(),
+            car.getColor()
         );
     }
 }

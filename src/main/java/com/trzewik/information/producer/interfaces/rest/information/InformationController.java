@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -40,7 +44,8 @@ public class InformationController {
         @ApiParam(required = true, value = "Id of searched information") @PathVariable(value = "id") String id
     ) throws InformationRepository.NotFoundException {
         log.info("Get information request with id: [{}]", id);
-        return InformationDto.from(informationService.get(id));
+        final InformationService.GetInformationCommand command = new InformationService.GetInformationCommand(id);
+        return InformationDto.from(informationService.get(command));
     }
 
     @ApiOperation(value = "Create information", httpMethod = "POST")
@@ -52,10 +57,10 @@ public class InformationController {
     @PostMapping(value = "/information", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public InformationDto createInformation(
-        @ApiParam(required = true, value = "Information object") @RequestBody InformationService.InformationForm form
+        @ApiParam(required = true, value = "Information object") @RequestBody InformationForm form
     ) {
         log.info("Create information request with body: [{}]", form);
-        return InformationDto.from(informationService.create(form));
+        return InformationDto.from(informationService.create(form.toCreateInformationCommand()));
     }
 
     @ApiOperation(value = "Replace information", httpMethod = "PUT")
@@ -67,12 +72,12 @@ public class InformationController {
     })
     @PutMapping(value = "/information/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public InformationDto updateInformation(
+    public InformationDto replaceInformation(
         @ApiParam(required = true, value = "Id of information to replace") @PathVariable(value = "id") String id,
-        @ApiParam(required = true, value = "Information object") @RequestBody InformationService.InformationForm form
+        @ApiParam(required = true, value = "Information object") @RequestBody InformationForm form
     ) throws InformationRepository.NotFoundException {
         log.info("Replace information request with id: [{}] and body: [{}]", id, form);
-        return InformationDto.from(informationService.replace(id, form));
+        return InformationDto.from(informationService.replace(form.toReplaceInformationCommand(id)));
     }
 
     @ApiOperation(value = "Update information", httpMethod = "PATCH")
@@ -84,12 +89,12 @@ public class InformationController {
     })
     @PatchMapping(value = "/information/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public InformationDto patchInformation(
+    public InformationDto updateInformation(
         @ApiParam(required = true, value = "Id of information to update") @PathVariable(value = "id") String id,
-        @ApiParam(required = true, value = "Information object") @RequestBody InformationService.InformationForm form
+        @ApiParam(required = true, value = "Information object") @RequestBody InformationForm form
     ) throws InformationRepository.NotFoundException {
         log.info("Update information request with id: [{}] and body: [{}]", id, form);
-        return InformationDto.from(informationService.update(id, form));
+        return InformationDto.from(informationService.update(form.toUpdateInformationCommand(id)));
     }
 
     @ApiOperation(value = "Delete information", httpMethod = "DELETE")
@@ -104,7 +109,8 @@ public class InformationController {
         @ApiParam(required = true, value = "Id of information to delete") @PathVariable(value = "id") String id
     ) throws InformationRepository.NotFoundException {
         log.info("Delete information request with id: [{}]", id);
-        return InformationDto.from(informationService.delete(id));
+        InformationService.DeleteInformationCommand command = new InformationService.DeleteInformationCommand(id);
+        return InformationDto.from(informationService.delete(command));
     }
 
     @ExceptionHandler(value = {InformationRepository.NotFoundException.class})
@@ -129,5 +135,70 @@ public class InformationController {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         ErrorDto response = new ErrorDto(message, status);
         return new ResponseEntity<>(response, status);
+    }
+
+    @Data
+    static class InformationForm {
+        private String description;
+        private String message;
+        private PersonForm person;
+        private List<CarForm> cars;
+
+        InformationService.CreateInformationCommand toCreateInformationCommand() {
+            return new InformationService.CreateInformationCommand(
+                this.description,
+                this.message,
+                this.person.toPerson(),
+                this.cars.stream().map(CarForm::toCar).collect(Collectors.toList())
+            );
+        }
+
+        InformationService.UpdateInformationCommand toUpdateInformationCommand(String id) {
+            return new InformationService.UpdateInformationCommand(
+                id,
+                this.description,
+                this.message,
+                this.person.toPerson(),
+                this.cars.stream().map(CarForm::toCar).collect(Collectors.toList())
+            );
+        }
+
+        InformationService.ReplaceInformationCommand toReplaceInformationCommand(String id) {
+            return new InformationService.ReplaceInformationCommand(
+                id,
+                this.description,
+                this.message,
+                this.person.toPerson(),
+                this.cars.stream().map(CarForm::toCar).collect(Collectors.toList())
+            );
+        }
+    }
+
+    @Data
+    static class PersonForm {
+        private String name;
+        private String lastName;
+
+        InformationService.InformationCommand.Person toPerson() {
+            return new InformationService.InformationCommand.Person(
+                this.name,
+                this.lastName
+            );
+        }
+    }
+
+    @Data
+    static class CarForm {
+        private String brand;
+        private String model;
+        private String color;
+
+        InformationService.InformationCommand.Car toCar() {
+            return new InformationService.InformationCommand.Car(
+                this.brand,
+                this.model,
+                this.color
+            );
+        }
     }
 }
