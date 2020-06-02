@@ -21,7 +21,7 @@ class InformationTestUT extends Specification implements InformationCreation {
             createInformation() | createInformation(new InformationCreator(carCreators: [new CarCreator(id: 'Different id')]))                 || false    | 'not be equals because car id is different'
             createInformation() | createInformation(new InformationCreator(carCreators: [new CarCreator(brand: 'Different brand')]))           || false    | 'not be equals because car brand is different'
             createInformation() | createInformation(new InformationCreator(carCreators: [new CarCreator(model: 'Different model')]))           || false    | 'not be equals because car model is different'
-            createInformation() | createInformation(new InformationCreator(carCreators: [new CarCreator(color: 'Different color')]))           || false    | 'not be equals because car color is different'
+            createInformation() | createInformation(new InformationCreator(carCreators: [new CarCreator(color: Color.BLUE)]))                  || false    | 'not be equals because car color is different'
 
     }
 

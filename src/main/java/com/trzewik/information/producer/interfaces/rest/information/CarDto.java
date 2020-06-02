@@ -1,6 +1,7 @@
 package com.trzewik.information.producer.interfaces.rest.information;
 
 import com.trzewik.information.producer.domain.information.Car;
+import com.trzewik.information.producer.domain.information.Color;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import java.io.Serializable;
 public class CarDto implements Serializable {
     private final String brand;
     private final String model;
-    private final String color;
+    private final Color color;
 
     public static CarDto from(Car car) {
         return new CarDto(

@@ -19,7 +19,7 @@ public class Car {
     @NonNull
     private final String model;
     @NonNull
-    private final String color;
+    private final Color color;
 
     Car(@NonNull InformationService.InformationCommand.Car car) {
         this(

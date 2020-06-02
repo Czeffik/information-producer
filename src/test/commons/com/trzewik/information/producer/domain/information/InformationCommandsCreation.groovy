@@ -103,7 +103,7 @@ trait InformationCommandsCreation {
         static class CarCreator {
             String brand = 'Test brand'
             String model = 'Test model'
-            String color = 'Test color'
+            Color color = Color.GREEN
         }
     }
 }

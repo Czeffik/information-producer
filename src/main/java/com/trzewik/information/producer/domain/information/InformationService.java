@@ -104,7 +104,7 @@ public interface InformationService {
         public static class Car {
             private final String brand;
             private final String model;
-            private final String color;
+            private final Color color;
         }
     }
 }

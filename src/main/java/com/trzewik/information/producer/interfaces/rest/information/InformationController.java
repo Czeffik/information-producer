@@ -1,5 +1,6 @@
 package com.trzewik.information.producer.interfaces.rest.information;
 
+import com.trzewik.information.producer.domain.information.Color;
 import com.trzewik.information.producer.domain.information.InformationRepository;
 import com.trzewik.information.producer.domain.information.InformationService;
 import io.swagger.annotations.ApiOperation;
@@ -191,7 +192,7 @@ public class InformationController {
     static class CarForm {
         private String brand;
         private String model;
-        private String color;
+        private Color color;
 
         InformationService.InformationCommand.Car toCar() {
             return new InformationService.InformationCommand.Car(

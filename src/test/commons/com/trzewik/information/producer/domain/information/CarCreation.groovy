@@ -19,7 +19,7 @@ trait CarCreation {
         String id = 'Test-car-id'
         String brand = 'Test brand'
         String model = 'Test model'
-        String color = 'Test color'
+        Color color = Color.GREEN
 
         CarCreator() {}
 
