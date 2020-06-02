@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,7 +43,8 @@ public class InformationController {
     @GetMapping(value = "/information/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public InformationDto getInformation(
-        @ApiParam(required = true, value = "Id of searched information") @PathVariable(value = "id") String id
+        @ApiParam(required = true, value = "Id of searched information") @PathVariable(value = "id") String id,
+        @ApiParam(required = true, value = "Header which ") @RequestHeader(value = "important") String important
     ) throws InformationRepository.NotFoundException {
         log.info("Get information request with id: [{}]", id);
         final InformationService.GetInformationCommand command = new InformationService.GetInformationCommand(id);
@@ -58,7 +60,8 @@ public class InformationController {
     @PostMapping(value = "/information", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public InformationDto createInformation(
-        @ApiParam(required = true, value = "Information object") @RequestBody InformationForm form
+        @ApiParam(required = true, value = "Information object") @RequestBody InformationForm form,
+        @ApiParam(required = true, value = "Header which ") @RequestHeader(value = "important") String important
     ) {
         log.info("Create information request with body: [{}]", form);
         return InformationDto.from(informationService.create(form.toCreateInformationCommand()));
@@ -75,7 +78,8 @@ public class InformationController {
     @ResponseStatus(HttpStatus.OK)
     public InformationDto replaceInformation(
         @ApiParam(required = true, value = "Id of information to replace") @PathVariable(value = "id") String id,
-        @ApiParam(required = true, value = "Information object") @RequestBody InformationForm form
+        @ApiParam(required = true, value = "Information object") @RequestBody InformationForm form,
+        @ApiParam(required = true, value = "Header which ") @RequestHeader(value = "important") String important
     ) throws InformationRepository.NotFoundException {
         log.info("Replace information request with id: [{}] and body: [{}]", id, form);
         return InformationDto.from(informationService.replace(form.toReplaceInformationCommand(id)));
@@ -92,7 +96,8 @@ public class InformationController {
     @ResponseStatus(HttpStatus.OK)
     public InformationDto updateInformation(
         @ApiParam(required = true, value = "Id of information to update") @PathVariable(value = "id") String id,
-        @ApiParam(required = true, value = "Information object") @RequestBody InformationForm form
+        @ApiParam(required = true, value = "Information object") @RequestBody InformationForm form,
+        @ApiParam(required = true, value = "Header which ") @RequestHeader(value = "important") String important
     ) throws InformationRepository.NotFoundException {
         log.info("Update information request with id: [{}] and body: [{}]", id, form);
         return InformationDto.from(informationService.update(form.toUpdateInformationCommand(id)));
@@ -107,7 +112,8 @@ public class InformationController {
     @DeleteMapping(value = "/information/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public InformationDto deleteInformation(
-        @ApiParam(required = true, value = "Id of information to delete") @PathVariable(value = "id") String id
+        @ApiParam(required = true, value = "Id of information to delete") @PathVariable(value = "id") String id,
+        @ApiParam(required = true, value = "Header which ") @RequestHeader(value = "important") String important
     ) throws InformationRepository.NotFoundException {
         log.info("Delete information request with id: [{}]", id);
         InformationService.DeleteInformationCommand command = new InformationService.DeleteInformationCommand(id);
