@@ -6,8 +6,8 @@ buildscript {
             mavenCentral()
         }
         lombokVersion = '1.18.12'
-        springBootVersion = '2.2.6.RELEASE'
-        jacksonDatabindVersion = '2.10.3'
+        springBootVersion = '2.3.0.RELEASE'
+        jacksonDatabindVersion = '2.11.0'
         swaggerVersion = '2.9.2'
         pitestVersion = '1.4.6'
         contractPublisherVersion = '1.0.9'
